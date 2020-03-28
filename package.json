@@ -1,0 +1,33 @@
+{
+  "name": "covid_19",
+  "version": "1.0.0",
+  "description": "my collection on covid_19 outbreak",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dothanhlam/covid_19.git"
+  },
+  "keywords": [
+    "covid_19",
+    "ml",
+    "d3",
+    "chart"
+  ],
+  "author": "Lam Do",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dothanhlam/covid_19/issues"
+  },
+  "homepage": "https://github.com/dothanhlam/covid_19#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  },
+  "dependencies": {
+    "ejs": "^3.0.1",
+    "express": "^4.17.1"
+  }
+}

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- CSS (load bootstrap from a CDN) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+    <style>
+        body {
+            padding-top: 20px;
+        }
+    </style>
+</head>
+
+<body class="container-fluid">
+    <script>
+    </script>
+    <header>
+        <%- include('partials/header', {world, vietnam: countries.filter( item => item.country == 'Vietnam')[0]}) %>
+    </header>
+
+    <main>
+        <div>
+            <br >
+            <%- include('partials/vietnam', {vietnam: countries.filter( item => item.country == 'Vietnam')[0], comparing: historical.filter( his => his.country == 's. korea' && his.province == null)[0] , timeline: historical.filter( his => his.country == 'vietnam' && his.province == null)[0]}) %>
+            <br >
+        </div>
+        <div>
+            <div class="row row-cols-1 row-cols-md-3">
+                <% countries.forEach(function(country) { %>
+                <div class="col mb-4">
+                    <%- include('partials/country', {country, timeline: historical.filter( his => his.country == country.country.toLowerCase() && his.province == null)[0]}) %>
+                </div>
+                <% }); %>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+    </footer>
+
+</body>
+<script language="javascript">
+    setInterval(function(){
+       window.location.reload(1);
+    }, 10*60*1000);
+    </script>
+</html>

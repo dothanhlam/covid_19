@@ -1,0 +1,116 @@
+<div class="card">
+    <h5 class="card-header">Vietnam COVID-19 update</h5>
+    <div class="card-body">
+        <nav class="navbar navbar-light bg-light bg-transparent">
+            <ul class="nav ">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Cases <span class="badge badge-primary"><%= vietnam.cases%></span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Deaths <span class="badge badge-danger"><%= vietnam.deaths%></span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Recovered <span
+                            class="badge badge-success"><%= vietnam.recovered%></span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Critical <span
+                            class="badge badge-warning"><%= vietnam.critical%></span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Active <span class="b  adge badge-info"><%= vietnam.active%></span></a>
+                </li>
+            </ul>
+        </nav>
+        <canvas id="vietnam" height="60"></canvas>
+        <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+</div>
+<script>
+
+    var _labels = [];
+    var _cases = [];
+    var _deaths = [];
+    var _cases_comparing = [];
+    var _deaths_comparing = [];
+    var _ranges = 30;
+    for (let i = 1; i <= _ranges; i++) {
+        let lastDay = new Date(Date.now() - i * 24 * 60 * 60 * 1000);
+        let l = `${lastDay.getMonth() + 1}/${lastDay.getDate()}/${lastDay.getFullYear() - 2000}`;
+        _labels.push(l);
+        var cases = JSON.parse('<%- timeline ? JSON.stringify(timeline.timeline.cases) : {} %>');
+        var deaths = JSON.parse('<%- timeline ? JSON.stringify(timeline.timeline.deaths) : {} %>');
+        var cases_comparing = JSON.parse('<%- timeline ? JSON.stringify(comparing.timeline.cases) : {} %>');
+        var deaths_comparing = JSON.parse('<%- timeline ? JSON.stringify(comparing.timeline.deaths) : {} %>');
+
+        if (cases && cases[l]) {
+            _cases.push(cases[l])
+        }
+        else {
+            _cases.push(0)
+        }
+
+        if (cases_comparing && cases_comparing[l]) {
+            _cases_comparing.push(cases_comparing[l])
+        }
+        else {
+        }
+
+        if (deaths && deaths[l]) {
+            _deaths.push(deaths[l])
+        }
+        else {
+            _deaths.push(0)
+        }
+
+        if (deaths_comparing && deaths_comparing[l]) {
+            _deaths_comparing.push(deaths_comparing[l])
+        }
+        else {
+        }
+    }
+
+    var colors = ['#007bff', '#ff6384', '#333333', '#c3e6cb', '#dc3545', '#6c757d'];
+    var color = Chart.helpers.color;
+
+    var chartData = {
+        labels: _labels.reverse(),
+        datasets: [
+        {
+            data: _cases.reverse(),
+            label: 'Cases',
+            borderColor: colors[0],
+            borderWidth: 2,
+            pointBackgroundColor: colors[0],
+            backgroundColor: color(colors[0]).alpha(0.2).rgbString(),
+        },
+        {
+            data: _deaths.reverse(),
+            label: 'Deaths',
+            borderColor: colors[1],
+            borderWidth: 2,
+            pointBackgroundColor: colors[1],
+            backgroundColor: color(colors[1]).alpha(0.2).rgbString(),
+        }]
+    };
+
+    var chLine = document.getElementById('vietnam');
+    if (chLine) {
+        new Chart(chLine, {
+            type: 'line',
+            data: chartData,
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: false
+                        }
+                    }]
+                },
+                legend: {
+                    display: true
+                }
+            }
+        });
+    }
+</script>
