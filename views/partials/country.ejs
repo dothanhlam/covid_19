@@ -29,15 +29,19 @@
     var _labels = [];
     var _cases = [];
     var _deaths = [];
+    var _recovered = [];
+
     var _ranges = 30;
     for (let i = 1; i <= _ranges; i++) {
         let lastDay = new Date(Date.now() - i * 24 * 60 * 60 * 1000);
         let l = `${lastDay.getMonth() + 1}/${lastDay.getDate()}/${lastDay.getFullYear() - 2000}`;
+        
         _labels.push(l);
         var cases = JSON.parse('<%- timeline ? JSON.stringify(timeline.timeline.cases) : {} %>');
         var deaths = JSON.parse('<%- timeline ? JSON.stringify(timeline.timeline.deaths) : {} %>');
+        var recovered = JSON.parse('<%- timeline ? JSON.stringify(timeline.timeline.recovered) : {} %>');
 
-        if (cases && cases[l]) {
+       if (cases && cases[l]) {
             _cases.push(cases[l])
         }
         else {
@@ -49,6 +53,13 @@
         }
         else {
             _deaths.push(0)
+        }
+
+        if (recovered && recovered[l]) {
+            _recovered.push(recovered[l])
+        }
+        else {
+            _recovered.push(0)
         }
     }
 
@@ -72,7 +83,17 @@
             borderWidth: 2,
             pointBackgroundColor: colors[1],
             backgroundColor: color(colors[1]).alpha(0.2).rgbString(),
+        },
+
+        {
+            data: _recovered.reverse(),
+            label: 'Recovered',
+            borderColor: colors[3],
+            borderWidth: 2,
+            pointBackgroundColor: colors[3],
+            backgroundColor: color(colors[3]).alpha(0.2).rgbString(),
         }]
+
     };
 
     var chLine = document.getElementById('<%= country.countryInfo._id%>');

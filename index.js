@@ -14,7 +14,8 @@ function fetchCovidHistorical(country) {
                 data += chunk;
             });
             resp.on('end', () => {
-                resolve(JSON.parse(data));
+                const parsedData = JSON.stringify(data);
+                resolve(data);
             });
         }).on("error", (err) => {
             console.log('fetching error: ', err);
@@ -68,10 +69,11 @@ app.get('/', function (req, res) {
                 fetchCovidHistorical('china').then(china => {
                     fetchCovidHistorical('canada').then(canada => {
                         fetchCovidHistorical('australia').then(australia => {
-                            historical.push(china);
-                            historical.push(canada);
-                            historical.push(australia);
-                            res.render('index', { world, countries, historical });
+                            let correctHistoricalData = JSON.parse(historical);
+                            correctHistoricalData.push(JSON.parse(china));
+                            correctHistoricalData.push(JSON.parse(canada));
+                            correctHistoricalData.push(JSON.parse(australia));
+                            res.render('index', { world, countries, historical:correctHistoricalData});
                         });
                     });
                 });

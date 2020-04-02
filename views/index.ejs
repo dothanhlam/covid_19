@@ -33,14 +33,14 @@
     <main>
         <div>
             <br >
-            <%- include('partials/vietnam', {vietnam: countries.filter( item => item.country == 'Vietnam')[0], comparing: historical.filter( his => his.country == 's. korea' && his.province == null)[0] , timeline: historical.filter( his => his.country == 'vietnam' && his.province == null)[0]}) %>
+          <%- include('partials/vietnam', {vietnam: countries.filter( item => item.country == 'Vietnam')[0], comparing: [], timeline: historical.filter( his => his.country == 'Vietnam' && his.province == null)[0]}) %>
             <br >
         </div>
         <div>
             <div class="row row-cols-1 row-cols-md-3">
                 <% countries.forEach(function(country) { %>
                 <div class="col mb-4">
-                    <%- include('partials/country', {country, timeline: historical.filter( his => his.country == country.country.toLowerCase() && his.province == null)[0]}) %>
+                    <%- include('partials/country', { country, timeline: historical.filter( his => his.country == country.country && his.province == null)[0] }  ) %>
                 </div>
                 <% }); %>
             </div>

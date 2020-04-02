@@ -31,29 +31,23 @@
     var _labels = [];
     var _cases = [];
     var _deaths = [];
-    var _cases_comparing = [];
-    var _deaths_comparing = [];
+    var _recovered = [];
+
     var _ranges = 30;
     for (let i = 1; i <= _ranges; i++) {
         let lastDay = new Date(Date.now() - i * 24 * 60 * 60 * 1000);
         let l = `${lastDay.getMonth() + 1}/${lastDay.getDate()}/${lastDay.getFullYear() - 2000}`;
+        
         _labels.push(l);
         var cases = JSON.parse('<%- timeline ? JSON.stringify(timeline.timeline.cases) : {} %>');
         var deaths = JSON.parse('<%- timeline ? JSON.stringify(timeline.timeline.deaths) : {} %>');
-        var cases_comparing = JSON.parse('<%- timeline ? JSON.stringify(comparing.timeline.cases) : {} %>');
-        var deaths_comparing = JSON.parse('<%- timeline ? JSON.stringify(comparing.timeline.deaths) : {} %>');
+        var recovered = JSON.parse('<%- timeline ? JSON.stringify(timeline.timeline.recovered) : {} %>');
 
-        if (cases && cases[l]) {
+       if (cases && cases[l]) {
             _cases.push(cases[l])
         }
         else {
             _cases.push(0)
-        }
-
-        if (cases_comparing && cases_comparing[l]) {
-            _cases_comparing.push(cases_comparing[l])
-        }
-        else {
         }
 
         if (deaths && deaths[l]) {
@@ -63,10 +57,11 @@
             _deaths.push(0)
         }
 
-        if (deaths_comparing && deaths_comparing[l]) {
-            _deaths_comparing.push(deaths_comparing[l])
+        if (recovered && recovered[l]) {
+            _recovered.push(recovered[l])
         }
         else {
+            _recovered.push(0)
         }
     }
 
@@ -75,8 +70,7 @@
 
     var chartData = {
         labels: _labels.reverse(),
-        datasets: [
-        {
+        datasets: [{
             data: _cases.reverse(),
             label: 'Cases',
             borderColor: colors[0],
@@ -91,7 +85,17 @@
             borderWidth: 2,
             pointBackgroundColor: colors[1],
             backgroundColor: color(colors[1]).alpha(0.2).rgbString(),
+        },
+
+        {
+            data: _recovered.reverse(),
+            label: 'Recovered',
+            borderColor: colors[3],
+            borderWidth: 2,
+            pointBackgroundColor: colors[3],
+            backgroundColor: color(colors[3]).alpha(0.2).rgbString(),
         }]
+
     };
 
     var chLine = document.getElementById('vietnam');
