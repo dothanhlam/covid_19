@@ -4,21 +4,21 @@
         <nav class="navbar navbar-light bg-light bg-transparent">
             <ul class="nav ">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Cases <span class="badge badge-primary"><%= vietnam.cases%></span></a>
+                    <a class="nav-link" href="#">Cases <span class="badge badge-primary"><%= vietnam.cases.toLocaleString() %></span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Deaths <span class="badge badge-danger"><%= vietnam.deaths%></span></a>
+                    <a class="nav-link" href="#">Deaths <span class="badge badge-danger"><%= vietnam.deaths.toLocaleString() %></span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Recovered <span
-                            class="badge badge-success"><%= vietnam.recovered%></span></a>
+                            class="badge badge-success"><%= vietnam.recovered.toLocaleString() %></span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Critical <span
-                            class="badge badge-warning"><%= vietnam.critical%></span></a>
+                            class="badge badge-warning"><%= vietnam.critical.toLocaleString() %></span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Active <span class="b  adge badge-info"><%= vietnam.active%></span></a>
+                    <a class="nav-link" href="#">Active <span class="badge badge-info"><%= vietnam.active.toLocaleString() %></span></a>
                 </li>
             </ul>
         </nav>
@@ -47,21 +47,21 @@
             _cases.push(cases[l])
         }
         else {
-            _cases.push(0)
+        //    _cases.push(0)
         }
 
         if (deaths && deaths[l]) {
             _deaths.push(deaths[l])
         }
         else {
-            _deaths.push(0)
+        //    _deaths.push(0)
         }
 
         if (recovered && recovered[l]) {
             _recovered.push(recovered[l])
         }
         else {
-            _recovered.push(0)
+        //    _recovered.push(0)
         }
     }
 

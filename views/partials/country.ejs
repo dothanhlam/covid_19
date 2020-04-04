@@ -3,10 +3,10 @@
     <div class="card-body">
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link" href="#">Cases <span class="badge badge-primary"><%= country.cases%></span></a>
+                <a class="nav-link" href="#">Cases <span class="badge badge-primary"><%= country.cases.toLocaleString() %></span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Deaths <span class="badge badge-danger"><%= country.deaths%></span></a>
+                <a class="nav-link" href="#">Deaths <span class="badge badge-danger"><%= country.deaths.toLocaleString() %></span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Critical <span
@@ -15,10 +15,10 @@
 
             <li class="nav-item">
                 <a class="nav-link" href="#">Recovered <span
-                        class="badge badge-success"><%= country.recovered%></span></a>
+                        class="badge badge-success"><%= country.recovered.toLocaleString() %></span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Active <span class="badge badge-info"><%= country.active%></span></a>
+                <a class="nav-link" href="#">Active <span class="badge badge-info"><%= country.active.toLocaleString() %></span></a>
             </li>
         </ul>
         <canvas id= "<%= country.countryInfo._id %>"> no data avaialble </canvas>
@@ -31,7 +31,7 @@
     var _deaths = [];
     var _recovered = [];
 
-    var _ranges = 30;
+    var _ranges = 15;
     for (let i = 1; i <= _ranges; i++) {
         let lastDay = new Date(Date.now() - i * 24 * 60 * 60 * 1000);
         let l = `${lastDay.getMonth() + 1}/${lastDay.getDate()}/${lastDay.getFullYear() - 2000}`;
@@ -44,23 +44,15 @@
        if (cases && cases[l]) {
             _cases.push(cases[l])
         }
-        else {
-            _cases.push(0)
-        }
-
+       
         if (deaths && deaths[l]) {
             _deaths.push(deaths[l])
-        }
-        else {
-            _deaths.push(0)
         }
 
         if (recovered && recovered[l]) {
             _recovered.push(recovered[l])
         }
-        else {
-            _recovered.push(0)
-        }
+    
     }
 
     var colors = ['#007bff', '#ff6384', '#333333', '#c3e6cb', '#dc3545', '#6c757d'];

@@ -12,16 +12,16 @@
   </div>
   <ul class="nav">
     <li class="nav-item">
-      <a class="nav-link" href="#">Cases <span class="badge badge-primary"><%= world.cases%></span></a>
+      <a class="nav-link" href="#">Cases <span class="badge badge-primary"><%= world.cases.toLocaleString() %></span></a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">Deaths <span class="badge badge-danger"><%= world.deaths%></span></a>
+      <a class="nav-link" href="#">Deaths <span class="badge badge-danger"><%= world.deaths.toLocaleString() %></span></a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">Recovered <span class="badge badge-success"><%= world.recovered%></span></a>
+      <a class="nav-link" href="#">Recovered <span class="badge badge-success"><%= world.recovered.toLocaleString() %></span></a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="#">Active <span class="badge badge-info"><%= world.active%></span></a>
+      <a class="nav-link" href="#">Active <span class="badge badge-info"><%= world.active.toLocaleString() %></span></a>
     </li>
   </ul>
 
