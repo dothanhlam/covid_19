@@ -27,6 +27,7 @@
     "nodemon": "^2.0.2"
   },
   "dependencies": {
+    "csv-writer": "^1.6.0",
     "ejs": "^3.0.1",
     "express": "^4.17.1"
   }

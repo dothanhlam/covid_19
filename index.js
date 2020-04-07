@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const fs = require('fs');
+const createCsvWriter = require('csv-writer').createObjectCsvWriter;
 
 const hostname = 'https://corona.lmao.ninja';
 
@@ -61,7 +62,7 @@ function fetchCovidDataByCountry(country, sort = 'cases') {
     });
 }
 
-function transform(countries = [], output='./data/timeline.json') {
+function transform(countries = [], output = './data/timeline.json') {
     let worldTimeline = [];
     countries.forEach(country => {
         const correctionData = {
@@ -69,26 +70,66 @@ function transform(countries = [], output='./data/timeline.json') {
             province: country.province,
             timeline: {},
         }
-
         const { cases, deaths, recovered } = country.timeline;
+        // TODO: for CSV
+        let _cases  = [];
+        let _deaths = [];
+        let _recovered = [];
+
         Object.keys(cases).forEach(key => {
             correctionData.timeline[key] = {
                 'date': key,
                 'cases': cases[key],
-            };
+            };        
+            _cases.push(cases[key]);     
         });
+
         Object.keys(deaths).forEach(key => {
             correctionData.timeline[key] = {
                 ...correctionData.timeline[key],
                 'deaths': deaths[key],
             };
+            _deaths.push(deaths[key]);
         });
+
         Object.keys(recovered).forEach(key => {
             correctionData.timeline[key] = {
                 ...correctionData.timeline[key],
                 recovered: recovered[key],
             };
+            _recovered.push(recovered[key]);
         });
+        let csvData = [];
+        let i = 0;
+        Object.keys(cases).forEach(key => {
+            const tmpDate = key.split("/");
+            const year = `20${tmpDate[2]}`;
+            const month = `${tmpDate[0]}`.padStart(2, "0");
+            const day = `${tmpDate[1]}`.padStart(2, "0");
+
+            const item = {
+                date: `${year}-${month}-${day}`,
+                cases: _cases[i],
+                deaths: _deaths[i],
+                recovered: _recovered[i]
+            };
+            csvData.push(item);
+            i ++;
+        });
+
+        const outputCSV = `./data/${country.country.trim()}.csv`;
+        const csvWriter = createCsvWriter({
+            path: outputCSV,
+            header: [
+              {id: 'date', title: 'date'},
+              {id: 'cases', title: 'cases'},
+              {id: 'deaths', title: 'deaths'},
+              {id: 'recovered', title: 'recovered'},
+            ]
+          });
+        csvWriter
+            .writeRecords(csvData)
+            .then(() => console.log(`The ${outputCSV} file was written successfully`));
 
         worldTimeline.push(correctionData);
     });
@@ -110,7 +151,8 @@ app.get('/', function (req, res) {
                             correctHistoricalData.push(JSON.parse(china));
                             correctHistoricalData.push(JSON.parse(canada));
                             correctHistoricalData.push(JSON.parse(australia));
-                            transform(correctHistoricalData);
+                        // TODO: transform to generate data csv
+                        //    transform(correctHistoricalData);
                             res.render('index', { world, countries, historical: correctHistoricalData });
                         });
                     });
